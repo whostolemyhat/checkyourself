@@ -11,25 +11,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	
+	private TextView alarmTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        alarmTime =(TextView) findViewById(R.id.alarm_time);        
         
         Button setNotification = (Button) findViewById(R.id.set_notification);
         setNotification.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Log.d("Check Yourself", "button clicked");
-				
-				
 				Intent intent = new Intent(MainActivity.this, AlarmService.class);
 				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
 				
@@ -40,9 +41,10 @@ public class MainActivity extends Activity {
 				calendar.add(Calendar.HOUR, 1);
 //				calendar.add(Calendar.SECOND, 10);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-				
+				Log.d("Check yourself", calendar.getTime().toString());
 				// trigger notification
 				Toast.makeText(MainActivity.this, "start alarm", Toast.LENGTH_LONG).show();
+				alarmTime.setText(calendar.getTime().toString());
 			}
 		});
         
