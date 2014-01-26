@@ -12,13 +12,11 @@ public class AlarmService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		Toast.makeText(this, "AlarmService.onBind()", Toast.LENGTH_LONG).show();
 		return null;
 	}
 	
 	@Override
 	public boolean onUnbind(Intent intent) {
-		Toast.makeText(this, "AlarmService.onUnbind()", Toast.LENGTH_LONG).show();
 		return super.onUnbind(intent);
 	}
 	
@@ -33,11 +31,11 @@ public class AlarmService extends Service {
 		super.onStart(intent, startId);
 		
 		Intent myIntent = new Intent(this, MainActivity.class);
+//		myIntent.putExtra("clearAlarm", true);
+		myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
 		PendingIntent pendingIntent = 
 				PendingIntent.getActivity(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		
-		Toast.makeText(this, "Alarm service start", Toast.LENGTH_LONG).show();
 		
 		Notification n = new Notification.Builder(this)
 		.setContentTitle("Check Yourself")

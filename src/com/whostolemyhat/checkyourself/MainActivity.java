@@ -7,6 +7,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -22,9 +23,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Intent i = getIntent();
+//        boolean clearAlarm = i.getBooleanExtra("clearAlarm", false);
+        
         setContentView(R.layout.activity_main);
         
-        alarmTime =(TextView) findViewById(R.id.alarm_time);        
+        alarmTime = (TextView) findViewById(R.id.alarm_time);
         
         Button setNotification = (Button) findViewById(R.id.set_notification);
         setNotification.setOnClickListener(new View.OnClickListener() {
@@ -32,23 +37,41 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this, AlarmService.class);
-				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 				
 				AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(System.currentTimeMillis());
 				// set alarm one hour from now
 				calendar.add(Calendar.HOUR, 1);
+//				calendar.add(Calendar.MINUTE, 1);
 //				calendar.add(Calendar.SECOND, 10);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 				Log.d("Check yourself", calendar.getTime().toString());
 				// trigger notification
-				Toast.makeText(MainActivity.this, "start alarm", Toast.LENGTH_LONG).show();
-				alarmTime.setText(calendar.getTime().toString());
+				Toast.makeText(MainActivity.this, "Reminder set", Toast.LENGTH_LONG).show();
+				alarmTime.setText("Next reminder: " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
 			}
-		});
+		});   
         
-        
+    }
+    
+    @Override
+    public void onStart() {
+    	super.onStart();
+    	Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void onRestart() {
+    	super.onRestart();
+    	Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
     }
 
 
