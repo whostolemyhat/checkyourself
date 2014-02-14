@@ -24,12 +24,30 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Intent i = getIntent();
+//        Intent i = getIntent();
 //        boolean clearAlarm = i.getBooleanExtra("clearAlarm", false);
         
         setContentView(R.layout.activity_main);
         
         alarmTime = (TextView) findViewById(R.id.alarm_time);
+        
+        Button dialog = (Button) findViewById(R.id.dialog);
+        dialog.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DateTimeDialogFragment newFrag = new DateTimeDialogFragment(MainActivity.this);
+				newFrag.show(getFragmentManager(), "timepicker");
+				
+				Intent intent = new Intent(MainActivity.this, AlarmService.class);
+				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+				AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+				alarmManager.set(AlarmManager.RTC_WAKEUP, newFrag.getDateTimeMillis(), pendingIntent);
+				
+				Log.d("Check Yourself", newFrag.getDateTime());
+			}
+		});
+
         
         Button setNotification = (Button) findViewById(R.id.set_notification);
         setNotification.setOnClickListener(new View.OnClickListener() {
@@ -55,24 +73,24 @@ public class MainActivity extends Activity {
 		});   
         
     }
-    
-    @Override
-    public void onStart() {
-    	super.onStart();
-    	Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
-    }
-    
-    @Override
-    public void onRestart() {
-    	super.onRestart();
-    	Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
-    }
-    
-    @Override
-    public void onResume() {
-    	super.onResume();
-    	Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-    }
+//    
+//    @Override
+//    public void onStart() {
+//    	super.onStart();
+//    	Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+//    }
+//    
+//    @Override
+//    public void onRestart() {
+//    	super.onRestart();
+//    	Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
+//    }
+//    
+//    @Override
+//    public void onResume() {
+//    	super.onResume();
+//    	Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+//    }
 
 
 	@Override
@@ -81,5 +99,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
     
 }
