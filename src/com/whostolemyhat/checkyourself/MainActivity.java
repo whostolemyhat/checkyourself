@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	AlarmReceiver alarm = new AlarmReceiver();
 	
 	private TextView alarmTime;
 
@@ -29,7 +30,27 @@ public class MainActivity extends Activity {
         
         setContentView(R.layout.activity_main);
         
+        
+        // repeating alarm
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        // use approximate time
+        
+        
         alarmTime = (TextView) findViewById(R.id.alarm_time);
+        // set all alarms
+        
+
+        
+        Button setAlarm = (Button) findViewById(R.id.setAlarm);
+        setAlarm.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				alarm.setAlarm(MainActivity.this);
+			}
+		});
         
         Button dialog = (Button) findViewById(R.id.dialog);
         dialog.setOnClickListener(new View.OnClickListener() {
@@ -73,24 +94,6 @@ public class MainActivity extends Activity {
 		});   
         
     }
-//    
-//    @Override
-//    public void onStart() {
-//    	super.onStart();
-//    	Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
-//    }
-//    
-//    @Override
-//    public void onRestart() {
-//    	super.onRestart();
-//    	Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
-//    }
-//    
-//    @Override
-//    public void onResume() {
-//    	super.onResume();
-//    	Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-//    }
 
 
 	@Override

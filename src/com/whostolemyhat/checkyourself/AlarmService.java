@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
 
 public class AlarmService extends Service {
 
@@ -31,7 +30,6 @@ public class AlarmService extends Service {
 		super.onStart(intent, startId);
 		
 		Intent myIntent = new Intent(this, MainActivity.class);
-//		myIntent.putExtra("clearAlarm", true);
 		myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		PendingIntent pendingIntent = 

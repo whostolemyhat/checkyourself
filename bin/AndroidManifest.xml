@@ -5,9 +5,12 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+ 
 
     <application
         android:allowBackup="true"
@@ -24,7 +27,16 @@
             </intent-filter>
         </activity>
         
-        <service android:name=".AlarmService"></service>
+        <!--<service android:name=".AlarmService"></service> -->
+        
+        <receiver android:name=".AlarmReceiver"></receiver>
+        <receiver android:name=".BootReceiver" android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <service android:name="ScheduleService"></service>
+        
     </application>
 
 </manifest>
