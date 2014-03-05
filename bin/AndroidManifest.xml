@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         
-        <!--<service android:name=".AlarmService"></service> -->
+        <service android:name=".AlarmService"></service>
         
         <receiver android:name=".AlarmReceiver"></receiver>
         <receiver android:name=".BootReceiver" android:enabled="false">

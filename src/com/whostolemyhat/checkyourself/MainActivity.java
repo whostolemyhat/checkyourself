@@ -40,9 +40,6 @@ public class MainActivity extends Activity {
         
         alarmTime = (TextView) findViewById(R.id.alarm_time);
         // set all alarms
-        
-
-        
         Button setAlarm = (Button) findViewById(R.id.setAlarm);
         setAlarm.setOnClickListener(new View.OnClickListener() {
 			
@@ -51,6 +48,8 @@ public class MainActivity extends Activity {
 				alarm.setAlarm(MainActivity.this);
 			}
 		});
+        
+        
         
         Button dialog = (Button) findViewById(R.id.dialog);
         dialog.setOnClickListener(new View.OnClickListener() {
