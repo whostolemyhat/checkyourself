@@ -1,5 +1,7 @@
 package com.whostolemyhat.checkyourself;
 
+import java.util.Locale;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -10,7 +12,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.widget.TextView;
+
+import com.whostolemyhat.checkyourself.views.AlarmView;
+import com.whostolemyhat.checkyourself.views.ButtonView;
 
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -29,9 +33,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	ViewPager mViewPager;
 	
-	AlarmReceiver alarm = new AlarmReceiver();
-	
-	private TextView alarmTime;
+//	AlarmReceiver alarm = new AlarmReceiver();
+//	
+//	private TextView alarmTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +163,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				return new ButtonView();
 			case 1:
 				// edit alarm view
-				return new ButtonView();
+				return new AlarmView();
 			}
     		
 			return null;
@@ -173,6 +177,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		@Override
 		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch(position) {
+			case 0:
+				return getString(R.string.button_title).toUpperCase(l);
+			case 1:
+				return getString(R.string.alarm_title).toUpperCase(l);
+			}
 			return "Test";
 		}
     }
