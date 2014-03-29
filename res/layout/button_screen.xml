@@ -17,14 +17,14 @@
         android:layout_marginTop="20dp" />
 
 
-    <Button
+   <!--  <Button
         android:id="@+id/dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/set_notification"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="do a thing" />
+        android:text="do a thing" />-->
 
     <Button
         android:id="@+id/set_notification"
@@ -38,9 +38,9 @@
         android:id="@+id/setAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog"
+        android:layout_below="@+id/set_notification"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="63dp"
         android:text="Set recurring alarm" />
 
 </RelativeLayout>

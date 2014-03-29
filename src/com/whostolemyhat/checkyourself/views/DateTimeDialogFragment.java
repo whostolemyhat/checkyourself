@@ -1,8 +1,12 @@
-package com.whostolemyhat.checkyourself;
+package com.whostolemyhat.checkyourself.views;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import com.whostolemyhat.checkyourself.R;
+import com.whostolemyhat.checkyourself.R.id;
+import com.whostolemyhat.checkyourself.R.layout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

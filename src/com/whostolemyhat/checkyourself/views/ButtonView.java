@@ -25,7 +25,6 @@ public class ButtonView extends Fragment {
 	
 	
 	AlarmReceiver alarm = new AlarmReceiver();
-//	AlarmManager alarmManager;
 	private TextView alarmTime;
 	
 	@Override
@@ -40,7 +39,6 @@ public class ButtonView extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), "test", Toast.LENGTH_SHORT).show();
 				alarm.setAlarm(getActivity());
 			}
 		});
@@ -77,9 +75,9 @@ public class ButtonView extends Fragment {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(System.currentTimeMillis());
 				// set alarm one hour from now
-//				calendar.add(Calendar.HOUR, 1);
-//				calendar.add(Calendar.MINUTE, 1);
-				calendar.add(Calendar.SECOND, 30);
+				calendar.add(Calendar.HOUR, 1);
+				calendar.add(Calendar.MINUTE, 1);
+//				calendar.add(Calendar.SECOND, 30);
 				AlarmManager alarmManager = (AlarmManager)getActivity().getApplicationContext().getSystemService(Service.ALARM_SERVICE);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 				Log.d("Check yourself", calendar.getTime().toString());

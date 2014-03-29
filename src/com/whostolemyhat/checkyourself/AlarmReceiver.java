@@ -30,29 +30,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 	
 	public void setAlarm(Context context) {
 		Toast.makeText(context, "Alarms set", Toast.LENGTH_SHORT).show();
-		Log.d("CheckYourself", "Alarm set");
+		
 		
 		// TODO: put this in a loop and get alarms/labels from an activity
 		
 		alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//		Intent intent = new Intent(context, AlarmReceiver.class);
-//		alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-		
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTimeInMillis(System.currentTimeMillis());
-		
-		// hardcode to 8.30am
-//		calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR));
-//		calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 1);
-		// fire at approx 8:30am, repeat once a day
-//		alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-//				calendar.getTimeInMillis(),
-//				AlarmManager.INTERVAL_DAY,
-//				alarmIntent);
+
 		
         // breakfast alarm = 9:00am
         Calendar breakfast = Calendar.getInstance();
         breakfast.setTimeInMillis(System.currentTimeMillis());
+        // get time and set calendar
         breakfast.set(Calendar.HOUR_OF_DAY, 9);
         breakfast.set(Calendar.MINUTE, 0);
         
@@ -61,6 +49,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         	breakfastMillis = breakfastMillis + INTERVAL_DAY;
         }
         Intent intent1 = new Intent(context, AlarmReceiver.class);
+        // get this label
         intent1.putExtra("name", "breakfast");
         
         PendingIntent breakfastIntent = PendingIntent.getBroadcast(context, 12345, intent1, 0);
@@ -69,11 +58,11 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 				AlarmManager.INTERVAL_DAY,
 				breakfastIntent);
         
-        // lunch alarm = 2:30pm
+        // lunch alarm = 3:00pm
         Calendar lunch = Calendar.getInstance();
         lunch.setTimeInMillis(System.currentTimeMillis());
-        lunch.set(Calendar.HOUR_OF_DAY, 14);
-        lunch.set(Calendar.MINUTE, 30);
+        lunch.set(Calendar.HOUR_OF_DAY, 15);
+        lunch.set(Calendar.MINUTE, 0);
         
         long lunchMillis = lunch.getTimeInMillis();
        

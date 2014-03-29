@@ -11,13 +11,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 
 import com.whostolemyhat.checkyourself.views.AlarmView;
 import com.whostolemyhat.checkyourself.views.ButtonView;
+import com.whostolemyhat.checkyourself.views.TimePickerFragment;
 
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
+TimePickerFragment.OnCompleteListener {
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -65,60 +68,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         			.setText(mSectionsPagerAdapter.getPageTitle(i))
         			.setTabListener(this));
         }
-        
-//        alarmTime = (TextView) findViewById(R.id.alarm_time);
-//        // set all alarms
-//        Button setAlarm = (Button) findViewById(R.id.setAlarm);
-//        setAlarm.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				alarm.setAlarm(MainActivity.this);
-//			}
-//		});
-//        
-//        
-//        
-//        Button dialog = (Button) findViewById(R.id.dialog);
-//        dialog.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				DateTimeDialogFragment newFrag = new DateTimeDialogFragment(MainActivity.this);
-//				newFrag.show(getFragmentManager(), "timepicker");
-//				
-//				Intent intent = new Intent(MainActivity.this, AlarmService.class);
-//				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//				AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-//				alarmManager.set(AlarmManager.RTC_WAKEUP, newFrag.getDateTimeMillis(), pendingIntent);
-//				
-//				Log.d("Check Yourself", newFrag.getDateTime());
-//			}
-//		});
-//
-//        
-//        Button setNotification = (Button) findViewById(R.id.set_notification);
-//        setNotification.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(MainActivity.this, AlarmService.class);
-//				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//				
-//				AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-//				Calendar calendar = Calendar.getInstance();
-//				calendar.setTimeInMillis(System.currentTimeMillis());
-//				// set alarm one hour from now
-//				calendar.add(Calendar.HOUR, 1);
-////				calendar.add(Calendar.MINUTE, 1);
-////				calendar.add(Calendar.SECOND, 10);
-//				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//				Log.d("Check yourself", calendar.getTime().toString());
-//				// trigger notification
-//				Toast.makeText(MainActivity.this, "Reminder set", Toast.LENGTH_LONG).show();
-//				alarmTime.setText("Next reminder: " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
-//			}
-//		});   
+         
         
     }
 
@@ -187,4 +137,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			return "Test";
 		}
     }
+
+
+    // listen for time picker changes
+	@Override
+	public void onComplete(int hour, int minute) {
+		Log.d("CheckYourself", "Called from alarm view");
+		Log.d("CheckYourself", Integer.toString(hour) + " " + Integer.toString(minute));
+	}
 }
