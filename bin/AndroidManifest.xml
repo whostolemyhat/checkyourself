@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.whostolemyhat.checkyourself"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="0.5" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity 
+            android:name="com.whostolemyhat.checkyourself.views.AlarmView"
+            android:label="@string/alarm_title"
+            android:parentActivityName="com.whostolemyhat.checkyourself.MainActivity"></activity>
         
         <service android:name=".AlarmService"></service>
         

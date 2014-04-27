@@ -23,7 +23,6 @@ import com.whostolemyhat.checkyourself.R;
 
 public class ButtonView extends Fragment {
 	
-	
 	AlarmReceiver alarm = new AlarmReceiver();
 	private TextView alarmTime;
 	
@@ -31,7 +30,7 @@ public class ButtonView extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.button_screen, container, false);
 		
-      alarmTime = (TextView) rootView.findViewById(R.id.alarm_time);
+		alarmTime = (TextView) rootView.findViewById(R.id.alarm_time);
       
       // set all alarms
       Button setAlarm = (Button) rootView.findViewById(R.id.setAlarm);

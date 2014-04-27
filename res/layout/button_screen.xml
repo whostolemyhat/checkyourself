@@ -43,4 +43,13 @@
         android:layout_marginTop="63dp"
         android:text="Set recurring alarm" />
 
+    <Button
+        android:id="@+id/change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setAlarm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:text="change aalarms" />
+
 </RelativeLayout>

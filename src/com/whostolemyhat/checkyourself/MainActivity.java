@@ -1,26 +1,31 @@
 package com.whostolemyhat.checkyourself;
 
-import java.util.Locale;
+import java.util.Calendar;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.whostolemyhat.checkyourself.views.AlarmView;
-import com.whostolemyhat.checkyourself.views.ButtonView;
-import com.whostolemyhat.checkyourself.views.TimePickerFragment;
 
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
-TimePickerFragment.OnCompleteListener {
+public class MainActivity extends Activity {
+	AlarmReceiver alarm = new AlarmReceiver();
+	private TextView alarmTime;
+	
+	public static final String PREFS_NAME = "AlarmPrefs";
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -30,11 +35,11 @@ TimePickerFragment.OnCompleteListener {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+//	SectionsPagerAdapter mSectionsPagerAdapter;
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	ViewPager mViewPager;
+//	ViewPager mViewPager;
 	
 //	AlarmReceiver alarm = new AlarmReceiver();
 //	
@@ -42,34 +47,81 @@ TimePickerFragment.OnCompleteListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.button_screen);
         
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        alarmTime = (TextView) findViewById(R.id.alarm_time);
+        
+        // set all alarms
+        Button setAlarm = (Button) findViewById(R.id.setAlarm);
+        setAlarm.setOnClickListener(new View.OnClickListener() {
+  			
+  			@Override
+  			public void onClick(View v) {
+  				alarm.setAlarm(MainActivity.this);
+  			}
+  		});
+        
+        Button setNotification = (Button) findViewById(R.id.set_notification);
+        setNotification.setOnClickListener(new View.OnClickListener() {
+  			
+  			@Override
+  			public void onClick(View v) {
+  				Intent intent = new Intent(MainActivity.this, AlarmService.class);
+  				PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+  				
+  				
+  				Calendar calendar = Calendar.getInstance();
+  				calendar.setTimeInMillis(System.currentTimeMillis());
+  				// set alarm one hour from now
+  				calendar.add(Calendar.HOUR, 1);
+  				calendar.add(Calendar.MINUTE, 1);
+//  				calendar.add(Calendar.SECOND, 30);
+  				AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Service.ALARM_SERVICE);
+  				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+  				Log.d("Check yourself", calendar.getTime().toString());
+  				// trigger notification
+  				Toast.makeText(MainActivity.this, "Reminder set", Toast.LENGTH_LONG).show();
+  				alarmTime.setText("Next reminder: " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
+  			}
+  		});
+        
+        Button setAlarms = (Button)findViewById(R.id.change);
+        setAlarms.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this, AlarmView.class);
+				startActivity(i);
+			}
+		});
+        
+//        final ActionBar actionBar = getActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         // create adapter
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+//        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+//        mViewPager = (ViewPager) findViewById(R.id.pager);
+//        mViewPager.setAdapter(mSectionsPagerAdapter);
         
         // handle swipes
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-        	@Override
-        	public void onPageSelected(int position) {
-        		actionBar.setSelectedNavigationItem(position);
-        	}
-        });
+//        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//        	@Override
+//        	public void onPageSelected(int position) {
+//        		actionBar.setSelectedNavigationItem(position);
+//        	}
+//        });
         
         // add tab for each section
-        for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-        	actionBar.addTab(actionBar.newTab()
-        			.setText(mSectionsPagerAdapter.getPageTitle(i))
-        			.setTabListener(this));
-        }
-         
+//        for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+//        	actionBar.addTab(actionBar.newTab()
+//        			.setText(mSectionsPagerAdapter.getPageTitle(i))
+//        			.setTabListener(this));
+//        }
         
+        // get from saved times
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        long breakfastAlarm = settings.getLong("breakfastAlarm", 0);
     }
 
 
@@ -80,69 +132,65 @@ TimePickerFragment.OnCompleteListener {
         return true;
     }
 
+//
+//	@Override
+//	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+//		// TODO Auto-generated method stub
+//	}
+//
+//
+//	@Override
+//	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//		mViewPager.setCurrentItem(tab.getPosition());
+//		
+//	}
+//
+//
+//	@Override
+//	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
-	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-	}
+//    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+//    	public SectionsPagerAdapter(FragmentManager fm) {
+//    		super(fm);
+//    	}
+//    	
+//    	@Override
+//    	public Fragment getItem(int position) {
+//			switch(position) {
+//			case 0:
+//				// return new button view
+//				return new ButtonView();
+//			case 1:
+//				// edit alarm view
+//				return new AlarmView();
+//			}
+//    		
+//			return null;
+//    	}
+//
+//		@Override
+//		public int getCount() {
+//			// TODO Auto-generated method stub
+//			return 2;
+//		}
+//		
+//		@Override
+//		public CharSequence getPageTitle(int position) {
+//			Locale l = Locale.getDefault();
+//			switch(position) {
+//			case 0:
+//				return getString(R.string.button_title).toUpperCase(l);
+//			case 1:
+//				return getString(R.string.alarm_title).toUpperCase(l);
+//			}
+//			return "Test";
+//		}
+//    }
 
 
-	@Override
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		mViewPager.setCurrentItem(tab.getPosition());
-		
-	}
 
 
-	@Override
-	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    	public SectionsPagerAdapter(FragmentManager fm) {
-    		super(fm);
-    	}
-    	
-    	@Override
-    	public Fragment getItem(int position) {
-			switch(position) {
-			case 0:
-				// return new button view
-				return new ButtonView();
-			case 1:
-				// edit alarm view
-				return new AlarmView();
-			}
-    		
-			return null;
-    	}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return 2;
-		}
-		
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch(position) {
-			case 0:
-				return getString(R.string.button_title).toUpperCase(l);
-			case 1:
-				return getString(R.string.alarm_title).toUpperCase(l);
-			}
-			return "Test";
-		}
-    }
-
-
-    // listen for time picker changes
-	@Override
-	public void onComplete(int hour, int minute) {
-		Log.d("CheckYourself", "Called from alarm view");
-		Log.d("CheckYourself", Integer.toString(hour) + " " + Integer.toString(minute));
-	}
 }

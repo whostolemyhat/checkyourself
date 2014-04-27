@@ -1,60 +1,79 @@
 package com.whostolemyhat.checkyourself.views;
 
-import android.app.DialogFragment;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import java.util.ArrayList;
 
+import models.AlarmModel;
+import android.app.ActionBar;
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+
+import com.whostolemyhat.checkyourself.AlarmAdapter;
 import com.whostolemyhat.checkyourself.R;
 
 
-public class AlarmView extends Fragment  {
-	
-//	AlarmReceiver alarm = new AlarmReceiver();
-////	AlarmManager alarmManager;
-//	private TextView alarmTime;
+public class AlarmView extends ListActivity implements TimePickerFragment.OnCompleteListener {
+
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.alarm_list_view);
+		
+		// read models in from storage		
+		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
+		AlarmModel lunch = new AlarmModel(15, 0, "Lunch");
+		AlarmModel tea = new AlarmModel(20, 15, "Tea");
+		
+		ArrayList<AlarmModel> modelVals = new ArrayList<AlarmModel>();
+		
+		modelVals.add(breakfast);
+		modelVals.add(lunch);
+		modelVals.add(tea);
+
+		AlarmAdapter adapter = new AlarmAdapter(this, R.layout.alarm_list, modelVals);
+		setListAdapter(adapter);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(true);
+		
+//		TextView time = (TextView) findViewById(R.id.time);
+//		time.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				DialogFragment timePicker = new TimePickerFragment();
+//				timePicker.show(getFragmentManager(), "timePicker");
+//			}
+//		});
+	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.alarm_list, container, false);
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		AlarmModel item = (AlarmModel) l.getItemAtPosition(position);
 		
-		final EditText label = (EditText) rootView.findViewById(R.id.label);
+		Log.d("CheckYourself", "click" + item.getLabel() + Integer.toString(item.getHour()));
 		
-		final TextView time = (TextView) rootView.findViewById(R.id.time);
-		time.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getActivity(), "Changing the time", Toast.LENGTH_SHORT).show();
-				
-//				DateTimeDialogFragment newFrag = new DateTimeDialogFragment(getActivity());
-//				newFrag.show(getActivity().getFragmentManager(), "timepicker");
-				
-//				Log.d("Check Yourself", newFrag.getDateTime());
-				
-				DialogFragment newFragment = new TimePickerFragment();
-				newFragment.show(getActivity().getFragmentManager(), "timePicker");
-			}
-		});
-		
-		Button save = (Button) rootView.findViewById(R.id.save);
-		save.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Log.d("CheckYourself", label.getText().toString() + " " + time.getText().toString());
-//				AlarmModel alarm = new AlarmModel();
-			}
-		});
-		
-		return rootView;
+		TimePickerFragment timePicker = new TimePickerFragment();
+		// TODO: implement set time in timefragment
+		timePicker.setTime(item.getHour(), item.getMinute());
+		timePicker.show(getFragmentManager(), "timePicker");
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		onBackPressed();
+		return true;
+	}
+	
+    // listen for time picker changes
+	@Override
+	public void onComplete(int hour, int minute) {
+		Log.d("CheckYourself", "Called from alarm view");
+		Log.d("CheckYourself", Integer.toString(hour) + " " + Integer.toString(minute));
+		// save changes
 	}
 
 }

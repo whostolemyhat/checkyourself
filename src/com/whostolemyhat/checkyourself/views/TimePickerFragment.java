@@ -13,9 +13,18 @@ import android.util.Log;
 import android.widget.TimePicker;
 
 public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {
+//	int hour = 0;
+//	int minute = 0;
+	Calendar c;
+	
 	public static interface OnCompleteListener {
 		public abstract void onComplete(int hour, int minute);
 	}
+	
+//	public TimePickerFragment(int hour, int minute) {
+//		this.hour = hour;
+//		this.minute = minute;
+//	}
 	
 	private OnCompleteListener listener;
 	
@@ -28,9 +37,15 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 		}
 	}
 	
+	public void setTime(int hour, int minute) {
+		c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, hour);
+		c.set(Calendar.MINUTE, minute);
+	}
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final Calendar c = Calendar.getInstance();
+//		final Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int minute = c.get(Calendar.MINUTE);
 		
@@ -40,7 +55,7 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		this.listener.onComplete(hourOfDay, minute);
-		Log.d("CheckYourself", Integer.toString(hourOfDay) + " " + Integer.toString(minute));
+		Log.d("CheckYourself", "test" + Integer.toString(hourOfDay) + " " + Integer.toString(minute));
 	}
 	
 }
