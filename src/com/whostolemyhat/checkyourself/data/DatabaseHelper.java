@@ -16,9 +16,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 	
 	// creation sql
-	private static final String DATABASE_CREATE = "create table" +
+	private static final String DATABASE_CREATE = "create table " +
 			TABLE_ALARMS + "(" + 
-			COLUMN_ID +	" integer primary key autoincrement," +
+			COLUMN_ID +	" integer primary key autoincrement, " +
 			COLUMN_HOUR + " integer not null, " +
 			COLUMN_MINUTE + " integer not null, " +
 			COLUMN_LABEL + " text);";

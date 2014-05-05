@@ -50,6 +50,6 @@
         android:layout_below="@+id/setAlarm"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:text="change aalarms" />
+        android:text="View current alarms" />
 
 </RelativeLayout>

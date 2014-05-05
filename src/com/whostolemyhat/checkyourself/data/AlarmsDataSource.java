@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.AlarmModel;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -31,21 +32,47 @@ public class AlarmsDataSource {
 		dbHelper.close();
 	}
 	
-//	public AlarmModel createAlarm(int hour, int minute, String label) {
-//		ContentValues values = new ContentValues();
-//		values.put(DatabaseHelper.COLUMN_HOUR, hour);
-//		values.put(DatabaseHelper.COLUMN_MINUTE, minute);
-//		values.put(DatabaseHelper.COLUMN_LABEL, label);
-//		
-//		long insertId = database.insert(DatabaseHelper.TABLE_ALARMS, null, values);
-//		Cursor cursor = database.query(DatabaseHelper.TABLE_ALARMS,
-//				allColumns,
-//				DatabaseHelper.COLUMN_ID + " = " + insertId,
-//				null, 
-//				null,
-//				null,
-//				null);
-//	}
+	public AlarmModel createAlarm(int hour, int minute, String label) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COLUMN_HOUR, hour);
+		values.put(DatabaseHelper.COLUMN_MINUTE, minute);
+		values.put(DatabaseHelper.COLUMN_LABEL, label);
+		
+		long insertId = database.insert(DatabaseHelper.TABLE_ALARMS, null, values);
+		Cursor cursor = database.query(DatabaseHelper.TABLE_ALARMS,
+				allColumns,
+				DatabaseHelper.COLUMN_ID + " = " + insertId,
+				null, 
+				null,
+				null,
+				null);
+		cursor.moveToFirst();
+		AlarmModel alarm = cursorToAlarm(cursor);
+		cursor.close();
+		
+		return alarm;
+	}
+	
+	public AlarmModel createAlarm(AlarmModel alarm) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COLUMN_HOUR, alarm.getHour());
+		values.put(DatabaseHelper.COLUMN_MINUTE, alarm.getMinute());
+		values.put(DatabaseHelper.COLUMN_LABEL, alarm.getLabel());
+		
+		long insertId = database.insert(DatabaseHelper.TABLE_ALARMS, null, values);
+		Cursor cursor = database.query(DatabaseHelper.TABLE_ALARMS,
+				allColumns,
+				DatabaseHelper.COLUMN_ID + " = " + insertId,
+				null, 
+				null,
+				null,
+				null);
+		cursor.moveToFirst();
+		AlarmModel insertedAlarm = cursorToAlarm(cursor);
+		cursor.close();
+		
+		return insertedAlarm;
+	}
 	
 	public List<AlarmModel> getAll() {
 		List<AlarmModel> alarms = new ArrayList<AlarmModel>();

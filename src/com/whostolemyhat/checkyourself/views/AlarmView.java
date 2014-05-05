@@ -1,6 +1,6 @@
 package com.whostolemyhat.checkyourself.views;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import models.AlarmModel;
 import android.app.ActionBar;
@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.whostolemyhat.checkyourself.AlarmAdapter;
 import com.whostolemyhat.checkyourself.R;
+import com.whostolemyhat.checkyourself.data.AlarmsDataSource;
 
 
 public class AlarmView extends ListActivity implements TimePickerFragment.OnCompleteListener {
@@ -22,15 +23,18 @@ public class AlarmView extends ListActivity implements TimePickerFragment.OnComp
 		setContentView(R.layout.alarm_list_view);
 		
 		// read models in from storage		
-		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
-		AlarmModel lunch = new AlarmModel(15, 0, "Lunch");
-		AlarmModel tea = new AlarmModel(20, 15, "Tea");
-		
-		ArrayList<AlarmModel> modelVals = new ArrayList<AlarmModel>();
-		
-		modelVals.add(breakfast);
-		modelVals.add(lunch);
-		modelVals.add(tea);
+//		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
+//		AlarmModel lunch = new AlarmModel(15, 0, "Lunch");
+//		AlarmModel tea = new AlarmModel(20, 15, "Tea");
+//		
+//		ArrayList<AlarmModel> modelVals = new ArrayList<AlarmModel>();
+//		
+//		modelVals.add(breakfast);
+//		modelVals.add(lunch);
+//		modelVals.add(tea);
+		AlarmsDataSource datasource = new AlarmsDataSource(this);
+		datasource.open();
+		List<AlarmModel> modelVals = datasource.getAll();
 
 		AlarmAdapter adapter = new AlarmAdapter(this, R.layout.alarm_list, modelVals);
 		setListAdapter(adapter);

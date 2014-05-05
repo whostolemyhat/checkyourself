@@ -1,13 +1,14 @@
 package com.whostolemyhat.checkyourself;
 
 import java.util.Calendar;
+import java.util.List;
 
+import models.AlarmModel;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.whostolemyhat.checkyourself.data.AlarmsDataSource;
 import com.whostolemyhat.checkyourself.views.AlarmView;
 
 
@@ -25,7 +27,7 @@ public class MainActivity extends Activity {
 	AlarmReceiver alarm = new AlarmReceiver();
 	private TextView alarmTime;
 	
-	public static final String PREFS_NAME = "AlarmPrefs";
+//	public static final String PREFS_NAME = "AlarmPrefs";
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -50,6 +52,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.button_screen);
         
+		// get from db
+		AlarmsDataSource datasource = new AlarmsDataSource(this);
+		datasource.open();
+		List<AlarmModel> alarms = datasource.getAll();
+		Log.d("CheckYourself", Integer.toString(alarms.size()));
+		
         alarmTime = (TextView) findViewById(R.id.alarm_time);
         
         // set all alarms
@@ -120,8 +128,8 @@ public class MainActivity extends Activity {
 //        }
         
         // get from saved times
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        long breakfastAlarm = settings.getLong("breakfastAlarm", 0);
+//        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//        long breakfastAlarm = settings.getLong("breakfastAlarm", 0);
     }
 
 
