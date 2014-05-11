@@ -21,8 +21,12 @@ public class ScheduleService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d("CheckYourself", "Service called");
-		String name = intent.getStringExtra("name");
+		Log.d(TAG, "Service called");
+		String name = intent.getStringExtra("alarmLabel");
+		if(name == null || name.isEmpty()) {
+			// TODO: mve to assets
+			name = "right now";
+		}
 		// set notification
 		sendNotification(String.format(getString(R.string.after_meal), name));
 		

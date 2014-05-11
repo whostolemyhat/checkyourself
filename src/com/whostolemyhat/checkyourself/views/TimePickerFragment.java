@@ -2,6 +2,7 @@ package com.whostolemyhat.checkyourself.views;
 
 import java.util.Calendar;
 
+import models.AlarmModel;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,22 +10,15 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.TimePicker;
 
 public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {
-//	int hour = 0;
-//	int minute = 0;
 	Calendar c;
+	AlarmModel alarm;
 	
 	public static interface OnCompleteListener {
-		public abstract void onComplete(int hour, int minute);
+		public abstract void onComplete(AlarmModel alarm);
 	}
-	
-//	public TimePickerFragment(int hour, int minute) {
-//		this.hour = hour;
-//		this.minute = minute;
-//	}
 	
 	private OnCompleteListener listener;
 	
@@ -37,15 +31,17 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 		}
 	}
 	
-	public void setTime(int hour, int minute) {
+
+	public void setAlarm(AlarmModel alarm) {
+		this.alarm = alarm;
+		
 		c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, hour);
-		c.set(Calendar.MINUTE, minute);
+		c.set(Calendar.HOUR_OF_DAY, alarm.getHour());
+		c.set(Calendar.MINUTE, alarm.getMinute());
 	}
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-//		final Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int minute = c.get(Calendar.MINUTE);
 		
@@ -54,8 +50,10 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		this.listener.onComplete(hourOfDay, minute);
-		Log.d("CheckYourself", "test" + Integer.toString(hourOfDay) + " " + Integer.toString(minute));
+		alarm.setHour(hourOfDay);
+		alarm.setMinute(minute);
+
+		this.listener.onComplete(alarm);
 	}
 	
 }

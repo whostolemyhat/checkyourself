@@ -33,21 +33,15 @@ public class AlarmAdapter extends ArrayAdapter<AlarmModel> {
 			rowView = convertView;
 		}
 		
-		TextView time = (TextView) rowView.findViewById(R.id.time);
-		String alarmTime = "";
-		if(alarm.getHour() < 10) {
-			alarmTime += "0";
-		}
-		alarmTime += alarm.getHour() +  ":";
-		if(alarm.getMinute() < 10) {
-			alarmTime += "0";
-		}
-		alarmTime += alarm.getMinute();
-		
-		time.setText(alarmTime);
+		TextView time = (TextView) rowView.findViewById(R.id.time);		
+		time.setText(alarm.getTimeString());
+		time.setClickable(true);
+		time.setFocusable(true);
 		
 		TextView label = (TextView) rowView.findViewById(R.id.label);
 		label.setText(alarm.getLabel());
+		label.setClickable(true);
+		label.setFocusable(true);
 		
 		return rowView;
 	}

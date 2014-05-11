@@ -1,7 +1,6 @@
 package com.whostolemyhat.checkyourself;
 
 import java.util.Calendar;
-import java.util.List;
 
 import models.AlarmModel;
 import android.app.Activity;
@@ -9,8 +8,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
@@ -26,37 +25,49 @@ import com.whostolemyhat.checkyourself.views.AlarmView;
 public class MainActivity extends Activity {
 	AlarmReceiver alarm = new AlarmReceiver();
 	private TextView alarmTime;
-	
-//	public static final String PREFS_NAME = "AlarmPrefs";
-	
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-//	SectionsPagerAdapter mSectionsPagerAdapter;
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-//	ViewPager mViewPager;
-	
-//	AlarmReceiver alarm = new AlarmReceiver();
-//	
-//	private TextView alarmTime;
+	SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.button_screen);
         
+        
+        
+        
+
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	prefs = getSharedPreferences("com.whostolemyhat.checkyourself", MODE_PRIVATE);
+    	
+    	Toast.makeText(getApplicationContext(), "On resume", Toast.LENGTH_SHORT).show();
+    	if(prefs.getBoolean("firstRun", true)) {
+    		Log.d("CheckYourself", "First run");
+    		prefs.edit().putBoolean("firstRun", false).commit();
+    		
+    		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
+    		AlarmModel lunch = new AlarmModel(15, 30, "Lunch");
+    		AlarmModel tea = new AlarmModel(20, 15, "Tea");
+    		
+    		AlarmsDataSource datasource = new AlarmsDataSource(getApplicationContext());
+    		datasource.open();
+    		datasource.createAlarm(breakfast);
+    		datasource.createAlarm(lunch);
+    		datasource.createAlarm(tea);
+    		
+    		datasource.close();
+    	}
+    	
+    	// if it's first run, set alarms
+        
 		// get from db
-		AlarmsDataSource datasource = new AlarmsDataSource(this);
-		datasource.open();
-		List<AlarmModel> alarms = datasource.getAll();
-		Log.d("CheckYourself", Integer.toString(alarms.size()));
+//		AlarmsDataSource datasource = new AlarmsDataSource(this);
+//		datasource.open();
+//		List<AlarmModel> alarms = datasource.getAll();
+//		Log.d("CheckYourself", Integer.toString(alarms.size()));
 		
         alarmTime = (TextView) findViewById(R.id.alarm_time);
         
@@ -84,7 +95,7 @@ public class MainActivity extends Activity {
   				// set alarm one hour from now
   				calendar.add(Calendar.HOUR, 1);
   				calendar.add(Calendar.MINUTE, 1);
-//  				calendar.add(Calendar.SECOND, 30);
+//    	  				calendar.add(Calendar.SECOND, 30);
   				AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Service.ALARM_SERVICE);
   				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
   				Log.d("Check yourself", calendar.getTime().toString());
@@ -103,33 +114,6 @@ public class MainActivity extends Activity {
 				startActivity(i);
 			}
 		});
-        
-//        final ActionBar actionBar = getActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
-        // create adapter
-//        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-//        mViewPager = (ViewPager) findViewById(R.id.pager);
-//        mViewPager.setAdapter(mSectionsPagerAdapter);
-        
-        // handle swipes
-//        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//        	@Override
-//        	public void onPageSelected(int position) {
-//        		actionBar.setSelectedNavigationItem(position);
-//        	}
-//        });
-        
-        // add tab for each section
-//        for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-//        	actionBar.addTab(actionBar.newTab()
-//        			.setText(mSectionsPagerAdapter.getPageTitle(i))
-//        			.setTabListener(this));
-//        }
-        
-        // get from saved times
-//        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-//        long breakfastAlarm = settings.getLong("breakfastAlarm", 0);
     }
 
 
@@ -139,66 +123,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-//
-//	@Override
-//	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-//		// TODO Auto-generated method stub
-//	}
-//
-//
-//	@Override
-//	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-//		mViewPager.setCurrentItem(tab.getPosition());
-//		
-//	}
-//
-//
-//	@Override
-//	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
-//    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-//    	public SectionsPagerAdapter(FragmentManager fm) {
-//    		super(fm);
-//    	}
-//    	
-//    	@Override
-//    	public Fragment getItem(int position) {
-//			switch(position) {
-//			case 0:
-//				// return new button view
-//				return new ButtonView();
-//			case 1:
-//				// edit alarm view
-//				return new AlarmView();
-//			}
-//    		
-//			return null;
-//    	}
-//
-//		@Override
-//		public int getCount() {
-//			// TODO Auto-generated method stub
-//			return 2;
-//		}
-//		
-//		@Override
-//		public CharSequence getPageTitle(int position) {
-//			Locale l = Locale.getDefault();
-//			switch(position) {
-//			case 0:
-//				return getString(R.string.button_title).toUpperCase(l);
-//			case 1:
-//				return getString(R.string.alarm_title).toUpperCase(l);
-//			}
-//			return "Test";
-//		}
-//    }
-
-
 
 
 }

@@ -5,6 +5,7 @@ public class AlarmModel {
 	private int hour;
 	private int minute;
 	private String label;
+	private long listPosition = 0;
 
 	
 	public AlarmModel(int hour, int minute, String label) {
@@ -47,5 +48,27 @@ public class AlarmModel {
 	
 	public void setLabel(String label) {
 		this.label = label;
+	}
+	
+	public long getListPosition() {
+		return this.listPosition;
+	}
+	
+	public void setListPosition(long pos) {
+		this.listPosition = pos;
+	}
+	
+	public String getTimeString() {
+		String alarmTime = "";
+		if(this.hour < 10) {
+			alarmTime += "0";
+		}
+		alarmTime += this.hour +  ":";
+		if(this.minute < 10) {
+			alarmTime += "0";
+		}
+		alarmTime += this.minute;
+		
+		return alarmTime;
 	}
 }

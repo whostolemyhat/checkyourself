@@ -95,6 +95,21 @@ public class AlarmsDataSource {
 		return alarms;
 	}
 	
+	public void updateAlarm(AlarmModel alarm) {
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.COLUMN_HOUR, alarm.getHour());
+		values.put(DatabaseHelper.COLUMN_MINUTE, alarm.getMinute());
+		values.put(DatabaseHelper.COLUMN_LABEL, alarm.getLabel());
+		
+		String filter = DatabaseHelper.COLUMN_ID + "=" + alarm.getId(); 
+		
+		// TODO: work out how to use sqlite properly
+		database.update(DatabaseHelper.TABLE_ALARMS,
+				values,
+				filter,
+				null);
+	}
+	
 	public void deleteAlarm(AlarmModel alarm) {
 		long id = alarm.getId();
 		database.delete(DatabaseHelper.TABLE_ALARMS,

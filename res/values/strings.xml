@@ -8,4 +8,6 @@
     <string name="alarm_title">Edit alarms</string>
 	<string name="set_alarm">I\'ve just eaten</string>
 	<string name="after_meal">Check blood sugar: after %1$s</string>
+	
+	<string name="set_label">Label</string>
 </resources>

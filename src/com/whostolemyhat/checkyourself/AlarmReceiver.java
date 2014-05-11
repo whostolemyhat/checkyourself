@@ -25,11 +25,16 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 	public static ArrayList<PendingIntent> intentArray = new ArrayList<PendingIntent>();
 	public static final int INTERVAL_DAY = 24 * 60 * 60 * 1000;
 
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String name = intent.getStringExtra("name");
+		String name = intent.getStringExtra("alarmLabel");
+		if(name == null || name.isEmpty()) {
+			name = "right now";
+		}
+		Log.d("CheckYourself", name);
 		Intent service = new Intent(context, ScheduleService.class);
-		service.putExtra("name", name);
+		service.putExtra("alarmLabel", name);
 		Log.d("CheckYourself", "onReceive " + name);
 		
 		startWakefulService(context, service);
@@ -42,30 +47,28 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 		datasource.open();
 		// TODO: for now, delete everything
 		List<AlarmModel> alarms = datasource.getAll();
-		for(AlarmModel alarm : alarms) {
-			datasource.deleteAlarm(alarm);
-		}
-		
-		// if first run, create alarms
-		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
-		AlarmModel lunch = new AlarmModel(23, 6, "Lunch test");
-		AlarmModel tea = new AlarmModel(23, 8, "Tea2");
-		
-		datasource.createAlarm(breakfast);
-		datasource.createAlarm(lunch);
-		datasource.createAlarm(tea);
+//		for(AlarmModel alarm : alarms) {
+//			datasource.deleteAlarm(alarm);
+//		}
+//		
+//		// if first run, create alarms
+//		AlarmModel breakfast = new AlarmModel(9, 0, "Breakfast");
+//		AlarmModel lunch = new AlarmModel(15, 30, "Lunch");
+//		AlarmModel tea = new AlarmModel(20, 15, "Tea");
+//		
+//		datasource.createAlarm(breakfast);
+//		datasource.createAlarm(lunch);
+//		datasource.createAlarm(tea);
 		// else read from db
 		// clear all
 
-		alarms = datasource.getAll();
-		Log.d("CheckYourself", Integer.toString(alarms.size()));
+//		alarms = datasource.getAll();
+		Log.d("CheckYourself", Integer.toString(alarms.size()) + " alarms set");
 		
 		datasource.close();
 		
 		alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-		
-		int id = 0;
+		int id = 12345;
 		
 		for(AlarmModel alarm: alarms) {
 			Calendar c = Calendar.getInstance();
@@ -79,12 +82,12 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 			}
 
 			Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-			alarmIntent.putExtra("name", alarm.getLabel());
+			alarmIntent.putExtra("alarmLabel", alarm.getLabel().toString());
 			
 			PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,
 					id,
 					alarmIntent,
-					0);
+					PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			intentArray.add(alarmPendingIntent);
 			
@@ -94,24 +97,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 					alarmPendingIntent);
 			id++;
 			
+			Log.d("CheckYourself", alarmIntent.getStringExtra("alarmLabel"));
+			
 			// debug
 			Date alarmDate = new Date(alarmMillis);
 			Date timeNow = new Date(System.currentTimeMillis());
 			
 			Log.d("CheckYourself", alarmDate.toString() + alarm.getLabel());
-			Log.d("CheckYourself", timeNow.toString());
+			Log.d("CheckYourself", "time now " + timeNow.toString());
 			Log.d("CheckYourself", Boolean.toString(System.currentTimeMillis() < alarmMillis));
 		}
-		
-		boolean alarmUp = (PendingIntent.getBroadcast(context, 1, 
-		        new Intent(context, AlarmReceiver.class), 
-		        PendingIntent.FLAG_NO_CREATE) != null);
 
-		if (alarmUp)
-		{
-		    Log.d("CheckYourself", "Alarm is already active");
-		}
-		
         // breakfast alarm = 9:00am
 //        Calendar breakfast = Calendar.getInstance();
 //        breakfast.setTimeInMillis(System.currentTimeMillis());
@@ -200,7 +196,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 	}
 	
 	// cancel all alarms
-	public void cancelAll(Context context) {
+	public void cancelAll() {
 		for(int i = 0; i < intentArray.size(); i++) {
 			alarmManager.cancel(intentArray.get(i));
 		}
