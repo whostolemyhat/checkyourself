@@ -7,7 +7,13 @@
     <string name="alarm_time">Alarm set for %1$s</string>
     <string name="alarm_title">Edit alarms</string>
 	<string name="set_alarm">I\'ve just eaten</string>
-	<string name="after_meal">Check blood sugar: after %1$s</string>
+	<string name="after_meal">Check blood sugar: %1$s</string>
+	<string name="manual">right now</string>
+	
+	<string name="view_alarms">View alarms</string>
 	
 	<string name="set_label">Label</string>
+	<string name="default_alarm">09:00</string>
+	<string name="delete_alarm">Delete</string>
+	<string name="add_alarm">Add alarm</string>
 </resources>

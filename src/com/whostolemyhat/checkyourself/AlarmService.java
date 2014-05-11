@@ -1,5 +1,7 @@
 package com.whostolemyhat.checkyourself;
 
+import com.whostolemyhat.checkyourself.views.MainActivity;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

@@ -1,5 +1,9 @@
 package com.whostolemyhat.checkyourself;
 
+import java.util.Locale;
+
+import com.whostolemyhat.checkyourself.views.MainActivity;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,8 +28,9 @@ public class ScheduleService extends IntentService {
 		Log.d(TAG, "Service called");
 		String name = intent.getStringExtra("alarmLabel");
 		if(name == null || name.isEmpty()) {
-			// TODO: mve to assets
-			name = "right now";
+			name = getString(R.string.manual);
+		} else {
+			name = "after " + name.toLowerCase(Locale.getDefault());
 		}
 		// set notification
 		sendNotification(String.format(getString(R.string.after_meal), name));
@@ -41,8 +46,11 @@ public class ScheduleService extends IntentService {
 		
 		notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 		
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, MainActivity.class), 0);
+				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
 			.setSmallIcon(R.drawable.ic_launcher)

@@ -1,42 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/alarm_list"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@+id/label"
-        android:ems="10"
-        android:text="09:00"
-        android:onClick="setAlarmTime" >
+   <TextView
+       android:id="@+id/time"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_marginLeft="12dp"
+       android:layout_alignParentTop="true"
+       android:onClick="setAlarmTime"
+       android:text="@string/default_alarm"
+       android:textSize="30sp" />
 
-    </TextView>
+   <TextView
+       android:id="@+id/label"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerVertical="true"
+       android:layout_marginLeft="16dp"
+       android:layout_toRightOf="@+id/time"
+       android:hint="@string/set_label"
+       android:onClick="setAlarmLabel"
+       android:textColor="@android:color/primary_text_light"
+       android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/time"
-        android:layout_alignBottom="@+id/time"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="34dp"
-        android:ems="10"
-        android:text="Label"
-        android:onClick="setAlarmLabel" />
-
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/label"
-        android:text="Delete"
-        android:onClick="deleteAlarm" />
+   <ImageButton
+       android:id="@+id/delete"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"
+       android:layout_marginRight="8dp"
+       android:background="@android:color/transparent"
+       android:contentDescription="@string/delete_alarm"
+       android:onClick="deleteAlarm"
+       android:src="@drawable/ic_action_discard" />
 
 </RelativeLayout>

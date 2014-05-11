@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.whostolemyhat.checkyourself.AlarmAdapter;
 import com.whostolemyhat.checkyourself.AlarmReceiver;
 import com.whostolemyhat.checkyourself.R;
+import com.whostolemyhat.checkyourself.data.AlarmAdapter;
 import com.whostolemyhat.checkyourself.data.AlarmsDataSource;
 import com.whostolemyhat.checkyourself.views.LabelDialog.LabelDialogListener;
 
@@ -30,8 +30,9 @@ LabelDialogListener{
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.alarm_list_view);
 		
+		setContentView(R.layout.alarm_list_view);
+
 		// read models in from storage		
 		AlarmsDataSource datasource = new AlarmsDataSource(this);
 		datasource.open();
@@ -118,13 +119,10 @@ LabelDialogListener{
 	}
 	
 	public void deleteAlarm(View v) {
-		TextView button = (TextView) v;
 		RelativeLayout parent = (RelativeLayout)v.getParent();
 		int position = getListView().getPositionForView(parent);
 		AlarmModel item = (AlarmModel) getListView().getItemAtPosition(position);
-		
-		Toast.makeText(getApplicationContext(), button.getText().toString(), Toast.LENGTH_SHORT).show();
-		
+
 		// delete alarm
 		AlarmsDataSource datasource = new AlarmsDataSource(this);
 		datasource.open();
