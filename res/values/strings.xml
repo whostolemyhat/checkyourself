@@ -16,4 +16,14 @@
 	<string name="default_alarm">09:00</string>
 	<string name="delete_alarm">Delete</string>
 	<string name="add_alarm">Add alarm</string>
+	
+	<string name="label_dialog_title">Edit alarm label</string>
+	
+	<color name="blue">#14367c</color>
+	<color name="light_blue">#4B86FF</color>
+	<color name="dark_blue">#12306d</color>
+	<color name="green">#52cc00</color>
+	<color name="dark_green">#4a0</color>
+	<color name="text_grey">#f7f7f7</color>
+	<color name="yellow">#FFC84B</color>
 </resources>

@@ -13,7 +13,8 @@
        android:layout_alignParentTop="true"
        android:onClick="setAlarmTime"
        android:text="@string/default_alarm"
-       android:textSize="30sp" />
+       android:textSize="30sp"
+       android:textColor="@color/yellow" />
 
    <TextView
        android:id="@+id/label"
@@ -24,7 +25,7 @@
        android:layout_toRightOf="@+id/time"
        android:hint="@string/set_label"
        android:onClick="setAlarmLabel"
-       android:textColor="@android:color/primary_text_light"
+       android:textColor="@android:color/primary_text_dark"
        android:textSize="20sp" />
 
    <ImageButton

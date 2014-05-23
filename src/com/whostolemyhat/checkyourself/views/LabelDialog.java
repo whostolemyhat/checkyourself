@@ -42,6 +42,7 @@ public class LabelDialog extends DialogFragment {
 		label.setText(alarm.getLabel());
 		
 		builder.setView(dialogView)
+				.setTitle(R.string.label_dialog_title)
 				.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 					
 					@Override

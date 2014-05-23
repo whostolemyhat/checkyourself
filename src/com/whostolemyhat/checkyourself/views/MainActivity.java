@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,9 +21,6 @@ import android.widget.Toast;
 import com.whostolemyhat.checkyourself.AlarmReceiver;
 import com.whostolemyhat.checkyourself.R;
 import com.whostolemyhat.checkyourself.ScheduleService;
-import com.whostolemyhat.checkyourself.R.id;
-import com.whostolemyhat.checkyourself.R.layout;
-import com.whostolemyhat.checkyourself.R.menu;
 import com.whostolemyhat.checkyourself.data.AlarmsDataSource;
 
 
@@ -34,7 +32,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.button_screen);
+        setContentView(R.layout.main_view);
     }
     
     @Override
@@ -83,7 +81,7 @@ public class MainActivity extends Activity {
   				Calendar calendar = Calendar.getInstance();
   				calendar.setTimeInMillis(System.currentTimeMillis());
   				// set alarm one hour from now
-//  				calendar.add(Calendar.HOUR, 1);
+  				calendar.add(Calendar.HOUR, 1);
   				calendar.add(Calendar.MINUTE, 1);
   				AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Service.ALARM_SERVICE);
   				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -93,25 +91,35 @@ public class MainActivity extends Activity {
   				alarmTime.setText("Next reminder: " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
   			}
   		});
-        
-        Button setAlarms = (Button)findViewById(R.id.change);
-        setAlarms.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(MainActivity.this, AlarmView.class);
-				startActivity(i);
-			}
-		});
+//        
+//        Button setAlarms = (Button)findViewById(R.id.change);
+//        setAlarms.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent i = new Intent(MainActivity.this, AlarmView.class);
+//				startActivity(i);
+//			}
+//		});
     }
 
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return true;
     }
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.view_alarms:
+			Intent i = new Intent(MainActivity.this, AlarmView.class);
+			startActivity(i);
+		}
+		
+		return true;
+	}
 
 }

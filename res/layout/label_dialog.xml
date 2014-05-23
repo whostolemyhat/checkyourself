@@ -4,6 +4,8 @@
     android:layout_height="wrap_content">
     <EditText
         android:id="@+id/alarmLabel"
+        android:layout_margin="12dp"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/set_label" />

@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.whostolemyhat.checkyourself.data.AlarmsDataSource;
 
@@ -39,9 +38,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 		startWakefulService(context, service);
 	}
 	
-	public void setAlarm(Context context) {
-		Toast.makeText(context, "Alarms set", Toast.LENGTH_SHORT).show();
-		
+	public void setAlarm(Context context) {		
 		AlarmsDataSource datasource = new AlarmsDataSource(context);
 		datasource.open();
 		List<AlarmModel> alarms = datasource.getAll();		

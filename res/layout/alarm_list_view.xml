@@ -1,18 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/blue" >
     
     <RelativeLayout
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:background="@color/dark_blue">
             <Button
 		        android:id="@+id/add"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentTop="true"
 		        android:text="@string/add_alarm"
-		        android:drawableLeft="@drawable/ic_action_new" />
+		        android:drawableLeft="@drawable/ic_action_new"
+		        android:textColor="@android:color/primary_text_dark" />
     </RelativeLayout>
 
     	<ListView

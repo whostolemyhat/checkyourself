@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.whostolemyhat.checkyourself.AlarmReceiver;
 import com.whostolemyhat.checkyourself.R;
@@ -52,7 +51,6 @@ LabelDialogListener{
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "Make new alarm lol", Toast.LENGTH_SHORT).show();
 				// create new alarm with defaults
 				AlarmModel newAlarm = new AlarmModel(9, 0, "New alarm");
 				modelVals.add(newAlarm);
@@ -71,8 +69,6 @@ LabelDialogListener{
 	
 	// TODO: alarm set being called twice :s
 	public void setAlarmTime(View v) {
-		Toast.makeText(getApplicationContext(), "Setting alarm time", Toast.LENGTH_SHORT).show();
-		
 		RelativeLayout parent = (RelativeLayout)v.getParent();
 		int position = getListView().getPositionForView(parent);
 		
@@ -84,7 +80,6 @@ LabelDialogListener{
 	}
 	
 	public void setAlarmLabel(View v) {
-		Toast.makeText(getApplicationContext(), "Change label", Toast.LENGTH_SHORT).show();
 		LabelDialog labelDialog = new LabelDialog();
 		
 		RelativeLayout parent = (RelativeLayout)v.getParent();
