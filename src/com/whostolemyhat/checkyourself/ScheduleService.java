@@ -2,8 +2,6 @@ package com.whostolemyhat.checkyourself;
 
 import java.util.Locale;
 
-import com.whostolemyhat.checkyourself.views.MainActivity;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.whostolemyhat.checkyourself.views.MainActivity;
 
 public class ScheduleService extends IntentService {
 	public ScheduleService() {
@@ -53,7 +53,7 @@ public class ScheduleService extends IntentService {
 				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-			.setSmallIcon(R.drawable.ic_launcher)
+			.setSmallIcon(R.drawable.heart)
 			.setContentTitle(getString(R.string.app_name))
 			.setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 			.setContentText(msg)
