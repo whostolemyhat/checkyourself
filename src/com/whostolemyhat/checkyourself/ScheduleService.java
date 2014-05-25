@@ -53,7 +53,7 @@ public class ScheduleService extends IntentService {
 				notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-			.setSmallIcon(R.drawable.heart)
+			.setSmallIcon(R.drawable.heart_clear)
 			.setContentTitle(getString(R.string.app_name))
 			.setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 			.setContentText(msg)
