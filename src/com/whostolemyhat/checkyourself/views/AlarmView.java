@@ -8,7 +8,6 @@ import android.app.ActionBar;
 import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -95,8 +94,6 @@ LabelDialogListener{
     // listen for time picker changes
 	@Override
 	public void onComplete(AlarmModel alarm) {
-		Log.d("CheckYourself", "Called from alarm view");
-		Log.d("CheckYourself", Integer.toString(alarm.getHour()) + " " + Integer.toString(alarm.getMinute()));
 		// save changes
 		// update view
 		TextView time = (TextView) getListView().getChildAt((int) alarm.getListPosition()).findViewById(R.id.time);

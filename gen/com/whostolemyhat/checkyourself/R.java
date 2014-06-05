@@ -58,10 +58,9 @@ containing a value of this type.
         public static final int heart_clear=0x7f020006;
         public static final int ic_action_alarms=0x7f020007;
         public static final int ic_action_discard=0x7f020008;
-        public static final int ic_action_edit=0x7f020009;
-        public static final int ic_action_new=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int round_button=0x7f02000c;
+        public static final int ic_action_new=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int round_button=0x7f02000b;
     }
     public static final class id {
         public static final int DatePicker=0x7f090006;

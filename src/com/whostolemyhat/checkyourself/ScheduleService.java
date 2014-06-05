@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.whostolemyhat.checkyourself.views.MainActivity;
 
@@ -25,7 +24,6 @@ public class ScheduleService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(TAG, "Service called");
 		String name = intent.getStringExtra("alarmLabel");
 		if(name == null || name.isEmpty()) {
 			name = getString(R.string.manual);
@@ -35,15 +33,11 @@ public class ScheduleService extends IntentService {
 		// set notification
 		sendNotification(String.format(getString(R.string.after_meal), name));
 		
-		Log.d("CheckYourself", "handleIntent " + name);
-		
 		// release wakelock
 		AlarmReceiver.completeWakefulIntent(intent);
 	}
 	
 	private void sendNotification(String msg) {
-		Log.d("CheckYourself", "setting notification");
-		
 		notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
