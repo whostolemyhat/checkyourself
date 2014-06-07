@@ -59,16 +59,6 @@ public class MainActivity extends Activity {
 		
         alarmTime = (TextView) findViewById(R.id.alarm_time);
         
-        // set all alarms
-//        Button setAlarm = (Button) findViewById(R.id.setAlarm);
-//        setAlarm.setOnClickListener(new View.OnClickListener() {
-//  			
-//  			@Override
-//  			public void onClick(View v) {
-//  				alarm.setAlarm(MainActivity.this);
-//  			}
-//  		});
-        
         Button setNotification = (Button) findViewById(R.id.set_notification);
         setNotification.setOnClickListener(new View.OnClickListener() {
   			
@@ -81,7 +71,7 @@ public class MainActivity extends Activity {
   				Calendar calendar = Calendar.getInstance();
   				calendar.setTimeInMillis(System.currentTimeMillis());
   				// set alarm one hour from now
-  				calendar.add(Calendar.HOUR, 1);
+  				calendar.add(Calendar.HOUR, 2);
   				calendar.add(Calendar.MINUTE, 1);
   				AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Service.ALARM_SERVICE);
   				alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -91,16 +81,7 @@ public class MainActivity extends Activity {
   				alarmTime.setText("Next reminder: " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
   			}
   		});
-//        
-//        Button setAlarms = (Button)findViewById(R.id.change);
-//        setAlarms.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				Intent i = new Intent(MainActivity.this, AlarmView.class);
-//				startActivity(i);
-//			}
-//		});
+
     }
 
 
